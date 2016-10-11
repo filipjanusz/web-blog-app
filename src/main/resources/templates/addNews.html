@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> </meta>
+    <link th:href="@{/webjars/bootstrap/3.3.6/css/bootstrap.css}" rel="stylesheet"> </link>
+    <link href="/style.css" rel="stylesheet" type="text/css"/>
+    <title>AllNews</title>
+</head>
+<body>
+<!-- Navbar -->
+<nav th:replace="fragments/navbar :: navbar">Navbar</nav>
+
+<!-- Dodawanie newsa -->
+<div class="jumbotron">
+    <div class="container">
+        <br/>
+        <div class="col-md-6 col-md-offset-3">
+            <form class="form-signin" th:action="@{/news/addNews}" th:object="${news}" method="post">
+                <h2 class="form-signin-heading">Add News Form</h2>
+                <div class="alert alert-danger" th:if="${#fields.hasAnyErrors()}">
+                    <ul><li th:each="err : ${#fields.allErrors()}" th:text="${err}">Errors</li></ul>
+                </div>
+                <input name="title" type="text" class="form-control" placeholder="Enter title" th:field="*{title}" required="true" autofocus="true"/>
+                <br/>
+                <textarea name="description" rows="5" class="form-control" placeholder="Enter description" th:field="*{description}" required="true" />
+                <br/>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Add News</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" th:src="@{/webjars/jquery/2.2.4/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/webjars/bootstrap/3.3.6/js/bootstrap.min.js}"></script>
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> </meta>
+    <link th:href="@{/webjars/bootstrap/3.3.6/css/bootstrap.css}" rel="stylesheet"> </link>
+    <link href="/style.css" rel="stylesheet" type="text/css"/>
+    <title>AllNews</title>
+</head>
+<body>
+<!-- Navbar -->
+<nav th:replace="fragments/navbar :: navbar">Navbar</nav>
+
+<div class="container col-md-10 col-md-offset-1">
+    <h1>Blog title <small>description</small></h1>
+    <hr/>
+</div>
+
+<!-- Page Content -->
+<div class="container col-md-10 col-md-offset-1">
+
+    <div class="row">
+
+        <!-- Blog Entries Column -->
+        <div class="col-md-8">
+
+            <!-- -->
+            <div class="alert alert-info" role="alert" th:if="${#lists.isEmpty(newsList)}">
+                No news to show.
+            </div>
+
+            <!-- First Blog Post -->
+            <div th:each="news : ${newsList}">
+            <h2>
+                <a th:href="@{'/news/{id}' (id=${news.id})}" th:text="${news.title}"></a>
+            </h2>
+            <p class="lead">
+                by <a th:href="@{'/profile/{username}' (username=${news.username})}" th:text="${news.username}"></a>
+            </p>
+            <p><span class="glyphicon glyphicon-time"></span> Posted on <span th:text="${news.date}"></span></p>
+            <hr/>
+            <img class="img-responsive" src="http://placehold.it/900x300" alt=""/>
+            <hr/>
+            <p th:text="${news.description}"></p>
+            <a class="btn btn-primary" href="#">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
+            <hr/>
+            </div>
+
+
+            <!-- Pagination -->
+            <div th:replace="fragments/pagination :: paginationbar">Pagination</div>
+
+        </div>
+
+        <!-- Blog Sidebar Widgets Column -->
+        <div class="col-md-4">
+
+            <!-- Blog Search Well -->
+            <div class="well">
+                <form method="post" th:action="@{/news/allNews/search}" th:object="${search}" >
+                <h4>Blog Search</h4>
+                <div class="input-group">
+                    <input type="text" class="form-control" name="search" th:field="*{content}"/>
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="submit">
+                                <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                        </span>
+                </div>
+                </form>
+                <!-- /.input-group -->
+            </div>
+
+            <!-- Blog Categories Well -->
+            <div class="well">
+                <h4>Blog Categories</h4>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <ul class="list-unstyled">
+                            <li><a href="#">Category Name</a>
+                            </li>
+                            <li><a href="#">Category Name</a>
+                            </li>
+                            <li><a href="#">Category Name</a>
+                            </li>
+                            <li><a href="#">Category Name</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- /.col-lg-6 -->
+                    <div class="col-lg-6">
+                        <ul class="list-unstyled">
+                            <li><a href="#">Category Name</a>
+                            </li>
+                            <li><a href="#">Category Name</a>
+                            </li>
+                            <li><a href="#">Category Name</a>
+                            </li>
+                            <li><a href="#">Category Name</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- /.col-lg-6 -->
+                </div>
+                <!-- /.row -->
+            </div>
+
+        </div>
+
+    </div>
+    <!-- /.row -->
+
+    <hr/>
+
+</div>
+<!-- /.container -->
+
+<script type="text/javascript" th:src="@{/webjars/jquery/2.2.4/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/webjars/bootstrap/3.3.6/js/bootstrap.min.js}"></script>
+</body>
+</html>

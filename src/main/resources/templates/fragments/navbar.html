@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> </meta>
+    <link th:href="@{/webjars/bootstrap/3.3.6/css/bootstrap.css}" rel="stylesheet"> </link>
+    <link href="/style.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-inverse navbar-static-top" th:fragment="navbar">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">FilipBlog</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a th:href="@{/home}">Home</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Blog <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a th:href="@{/news/allNews}">Blog</a></li>
+                        <li th:class="${#authorization.expression('isAuthenticated()')}? '' : 'disabled'"><a th:href="@{/news/addNews}">Add News</a></li>
+                    </ul>
+                </li>
+                <li><a th:href="@{/contactbook/contacts}">ContactBook</a></li>
+                <li class="dropdown" sec:authorize="isAuthenticated() and hasRole('ADMIN')">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a th:href="@{/admin/allUsers}">Users</a></li>
+                        <li><a th:href="@{'/profile/{username}' (username=${#authentication.name})}">Profile</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li th:if="${#authorization.expression('isAuthenticated()')}"><p class="navbar-text">Signed in as <a th:href="@{'/profile/{username}' (username=${#authentication.name})}" class="navbar-link"><span sec:authentication="name">username</span></a></p></li>
+                <li th:if="${#authorization.expression('!isAuthenticated()')}"><a th:href="@{/register}">Sign Up</a></li>
+                <li th:if="${#authorization.expression('!isAuthenticated()')}"><a th:href="@{/login}">Login</a></li>
+                <li class="dropdown" th:if="${#authorization.expression('isAuthenticated()')}">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a th:href="@{'/profile/{username}' (username=${#authentication.name})}">My profile</a></li>
+                        <li><a href="#">Another action</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li class="dropdown-header">
+                            <form th:action="@{/logout}" method="post">
+                                <input type="hidden" value="Wyloguj" /><button class="btn btn-default btn-block">Logout</button>
+                            </form>
+                        </li>
+
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <!--/.nav-collapse -->
+    </div>
+</nav>
+
+<script type="text/javascript" th:src="@{/webjars/jquery/2.2.4/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/webjars/bootstrap/3.3.6/js/bootstrap.min.js}"></script>
+</body>
+</html>

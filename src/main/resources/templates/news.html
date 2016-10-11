@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> </meta>
+    <link th:href="@{/webjars/bootstrap/3.3.6/css/bootstrap.css}" rel="stylesheet"> </link>
+    <link href="/style.css" rel="stylesheet" type="text/css"/>
+    <title>AllNews</title>
+</head>
+<body>
+<!-- Navbar -->
+<nav th:replace="fragments/navbar :: navbar">Navbar</nav>
+
+<div class="container col-md-8 col-md-offset-2">
+    <h1 th:text="${news.title}">Blog title</h1>
+    <hr/>
+</div>
+
+<!-- Page Content -->
+<div class="container">
+
+    <!-- Blog Post Content Column -->
+    <div class="col-md-8 col-md-offset-2">
+
+        <!-- Blog Post -->
+
+        <!-- Author -->
+        <p class="lead">
+            by <a th:href="@{'/profile/{username}' (username=${news.username})}" th:text="${news.username}"></a>
+        </p>
+
+        <hr/>
+
+        <!-- Date/Time -->
+        <p><span class="glyphicon glyphicon-time"></span> Posted on <span th:text="${news.date}"></span></p>
+
+        <hr/>
+
+        <!-- Preview Image -->
+        <img class="img-responsive" src="http://placehold.it/900x300" alt=""/>
+
+        <hr/>
+
+        <!-- Post Content -->
+        <p class="lead" th:text="${news.description}"></p>
+
+        <hr/>
+
+        <!-- Blog Comments -->
+
+        <!-- Comments Form -->
+        <div class="well" sec:authorize="isAuthenticated()">
+            <h4>Leave a Comment:</h4>
+            <form role="form" th:action="@{'/news/{newsId}' (newsId=${news.id})}" th:object="${comment}" method="post">
+                <div class="alert alert-danger" th:if="${#fields.hasAnyErrors()}">
+                    <ul><li th:each="err : ${#fields.allErrors()}" th:text="${err}">Errors</li></ul>
+                </div>
+                <div class="form-group">
+                    <textarea name="comment" class="form-control" rows="3" th:field="*{content}" required="true"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+
+        <hr/>
+
+        <!-- Posted Comments -->
+
+        <!-- Comment -->
+        <div class="alert alert-info" role="alert" th:if="${#lists.isEmpty(commentList)}">
+            No comments to show.
+        </div>
+        <div class="media" th:each="comment : ${commentList}">
+            <a class="pull-left" href="#">
+                <img class="media-object" src="http://placehold.it/64x64" alt=""/>
+            </a>
+            <div class="media-body">
+                <h4 class="media-heading"><span th:text="${comment.username}">Start Bootstrap</span>
+                    <small th:text="${comment.date}">August 25, 2014 at 9:30 PM</small>
+                </h4>
+                <span th:text="${comment.content}">Content</span>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<!-- /.container -->
+<br/>
+
+<script type="text/javascript" th:src="@{/webjars/jquery/2.2.4/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/webjars/bootstrap/3.3.6/js/bootstrap.min.js}"></script>
+</body>
+</html>

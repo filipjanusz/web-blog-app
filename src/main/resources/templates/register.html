@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> </meta>
+    <link th:href="@{/webjars/bootstrap/3.3.6/css/bootstrap.css}" rel="stylesheet"> </link>
+    <link href="/style.css" rel="stylesheet" type="text/css"/>
+    <title>Register</title>
+    <script src='https://www.google.com/recaptcha/api.js?hl=en'></script>
+
+</head>
+<body>
+<!-- Navbar -->
+<nav th:replace="fragments/navbar :: navbar" >Navbar</nav>
+
+<!-- Formularz rejestracji -->
+<div class="container">
+
+    <div class="col-md-6 col-md-offset-3">
+        <h2>Registration Form</h2>
+        <div class="row">
+            <form th:action="@{/register}" th:object="${user}" method="post" role="form" data-toggle="validator">
+                <div class="col-md-12">
+                    <div class="alert alert-danger" th:if="${#fields.hasAnyErrors()}">
+                        <ul><li th:each="err : ${#fields.allErrors()}" th:text="${err}">Errors</li></ul>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 form-group form-group-sm">
+                            <label>First Name</label>
+                            <input type="text" placeholder="Enter First Name Here.." class="form-control" th:field="*{firstname}" required="true" autofocus="true" />
+                        </div>
+                        <div class="col-md-6 form-group form-group-sm">
+                            <label>Last Name</label>
+                            <input type="text" placeholder="Enter Last Name Here.." class="form-control" th:field="*{lastname}" required="true"/>
+                        </div>
+                    </div>
+                    <div class="form-group form-group-sm">
+                        <label>Email Adress</label>
+                        <input type="email" placeholder="Enter Email Here.." class="form-control" th:field="*{email}" required="true"/>
+                    </div>
+                    <div class="form-group form-group-sm">
+                        <label>Username</label>
+                        <input type="text" placeholder="Enter Username Here.." class="form-control" th:field="*{username}" required="true"/>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 form-group form-group-sm">
+                            <label>Password</label>
+                            <input type="password" placeholder="Enter Password Here.." class="form-control" th:field="*{password}" required="true"/>
+                        </div>
+                        <div class="col-md-6 form-group form-group-sm">
+                            <label>Confirm Passowrd</label>
+                            <input type="password" placeholder="Enter Passowrd Here.." class="form-control" th:field="*{confirmPassword}" required="true"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8 form-group form-group-sm">
+
+                            <div class="g-recaptcha" data-sitekey="6LccTSgTAAAAABdhaZFgz_xrYXRTJVrsm0a2Z6qO"></div>
+                            <input type="hidden" th:field="*{recaptchaResponse}"/>
+
+                        </div>
+                        <div class="col-md-2 col-md-offset-1 form-group form-group-sm">
+                            <button type="submit" class="btn btn-lg btn-info">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript" th:src="@{/webjars/jquery/2.2.4/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/webjars/bootstrap/3.3.6/js/bootstrap.min.js}"></script>
+</body>
+</html>

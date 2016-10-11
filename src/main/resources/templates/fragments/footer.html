@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> </meta>
+    <link th:href="@{/webjars/bootstrap/3.3.6/css/bootstrap.css}" rel="stylesheet"> </link>
+    <link href="/style.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+
+<!-- Footer -->
+<footer th:fragment="footer">
+    <hr/>
+    <div class="container">
+        <div class="navbar-text" th:if="${#authorization.expression('!isAuthenticated()')}">
+            <p>Current user information:</p>
+            <p>Not logged in. User is anonymous.</p>
+        </div>
+        <div class="navbar-text" th:if="${#authorization.expression('isAuthenticated()')}">
+            <p>Current user information:</p>
+            <p>User: <span sec:authentication="name"></span></p>
+        </div>
+    </div>
+</footer>
+
+<script type="text/javascript" th:src="@{/webjars/jquery/2.2.4/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/webjars/bootstrap/3.3.6/js/bootstrap.min.js}"></script>
+</body>
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> </meta>
+    <link th:href="@{/webjars/bootstrap/3.3.6/css/bootstrap.css}" rel="stylesheet"> </link>
+    <link href="/style.css" rel="stylesheet" type="text/css"/>
+    <title>AllUsers</title>
+</head>
+<body>
+<!-- Navbar -->
+<nav th:replace="fragments/navbar :: navbar" >Navbar</nav>
+
+<div class="container">
+
+    <h2>User list</h2>
+    <div class="row">
+        <div class="col-md-4">
+            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#addUser" aria-expanded="false" aria-controls="collapseExample">
+                Add user</button>
+            <a class="btn btn-primary" href="#">Search user</a>
+        </div>
+        <div class="btn-group col-md-2 col-md-offset-6">
+            <button type="button" class="btn btn-default">
+                Sort</button>
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                <span class="caret"></span><span class="sr-only">Social</span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+                <li><a href="#">By username</a></li>
+                <li><a href="#">By firstname</a></li>
+                <li><a href="#">By lastname</a></li>
+                <li class="divider"></li>
+                <li><a href="#">Default</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div th:if="${not #lists.isEmpty(users)}">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>Username</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email Adress</th>
+                <th>Role</th>
+                <th></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user : ${users}">
+                <td th:text="${user.username}" />
+                <td th:text="${user.firstname}"/>
+                <td th:text="${user.lastname}"/>
+                <td th:text="${user.email}"/>
+                <td th:text="${user.role}"/>
+                <td>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a th:href="@{'/admin/delete/{id}'(id=${user.id})}">Delete</a></li>
+                            <li><a th:href="@{'/profile/{username}' (username=${user.username})}">Profile</a></li>
+                            <li><a href="#">Change role</a></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div th:replace="fragments/pagination :: paginationbar">Pagination</div>
+
+    <!-- Add user -->
+    <div class="collapse" id="addUser">
+        <div class="col-md-5 well">
+        <form th:action="@{/admin/addUser}" th:object="${user}" method="post" role="form" class="form-horizontal">
+
+            <div  class="alert alert-danger" th:if="${#fields.hasAnyErrors()}">
+                <ul><li th:each="err : ${#fields.allErrors()}" th:text="${err}">Errors</li></ul>
+            </div>
+
+            <div class="form-group form-group-sm">
+                <label class="col-md-4 control-label">Firstname</label>
+                <div class="col-md-8">
+                    <input type="text" class="form-control" th:field="*{firstname}" required="true" autofocus="true"/>
+                </div>
+            </div>
+
+            <div class="form-group form-group-sm">
+                <label class="col-md-4 control-label">Lastname</label>
+                <div class="col-md-8">
+                    <input type="text" class="form-control" th:field="*{lastname}" required="true"/>
+                </div>
+            </div>
+
+            <div class="form-group form-group-sm">
+                <label class="col-md-4 control-label">Username</label>
+                <div class="col-md-8">
+                    <input type="text" class="form-control" th:field="*{username}" required="true"/>
+                </div>
+            </div>
+
+            <div class="form-group form-group-sm">
+                <label class="col-md-4 control-label">Email</label>
+                <div class="col-md-8">
+                    <input type="email" class="form-control" th:field="*{email}" required="true"/>
+                </div>
+            </div>
+
+            <div class="form-group form-group-sm">
+                <label class="col-md-4 control-label">Password</label>
+                <div class="col-md-8">
+                    <input type="password" class="form-control" th:field="*{password}" required="true"/>
+                </div>
+            </div>
+
+            <div class="form-group form-group-sm">
+                <label class="col-md-4 control-label">Confirm password</label>
+                <div class="col-md-8">
+                    <input type="password" class="form-control" th:field="*{confirmPassword}" required="true"/>
+                </div>
+            </div>
+
+            <div class="form-group form-group-sm">
+                <label class="col-md-4 control-label">Role</label>
+                <div class="col-md-8">
+                <label class="radio-inline">
+                    <input type="radio" name="role" th:field="*{role}" value="ROLE_USER"/> USER
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="role" th:field="*{role}" value="ROLE_ADMIN"/> ADMIN
+                </label>
+                </div>
+            </div>
+
+            <div class="col-md-offset-4">
+                <div class="row">
+                    <button type="submit" class="btn btn-info">Add user</button>
+                    <button type="reset" class="btn btn-default">Reset</button>
+                </div>
+            </div>
+
+        </form>
+        </div>
+        <br/>
+    </div>
+
+</div>
+
+<script type="text/javascript" th:src="@{/webjars/jquery/2.2.4/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/webjars/bootstrap/3.3.6/js/bootstrap.min.js}"></script>
+</body>
+</html>

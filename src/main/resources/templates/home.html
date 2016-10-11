@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> </meta>
+    <link th:href="@{/webjars/bootstrap/3.3.6/css/bootstrap.css}" rel="stylesheet"> </link>
+    <link href="/style.css" rel="stylesheet" type="text/css"/>
+    <link href="/bootstrap-social.css" rel="stylesheet" type="text/css"/>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+    <title>Home</title>
+</head>
+<body>
+<!-- Navbar -->
+<nav th:replace="fragments/navbar :: navbar" >Navbar</nav>
+
+<div class="jumbotron">
+    <div class="container">
+        <h1>Hello <span sec:authentication="name">username</span>!</h1>
+        <p>This is my app.</p>
+        <p><a class="btn btn-lg btn-social btn-github" href="#" role="button"><span class="fa fa-github"/> View project on Github &raquo;</a></p>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer th:replace="fragments/footer :: footer">Footer</footer>
+
+<script type="text/javascript" th:src="@{/webjars/jquery/2.2.4/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/webjars/bootstrap/3.3.6/js/bootstrap.min.js}"></script>
+</body>
+</html>
