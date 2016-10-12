@@ -44,14 +44,6 @@ public class AdminController {
         return "allUsers";
     }
 
-    /*
-    @RequestMapping(method = RequestMethod.GET, value = "/addUser")
-    public String getUserForm(Model model) {
-        model.addAttribute("user", new UserDTO());
-        return "addUser";
-    }
-    */
-
     @RequestMapping(method = RequestMethod.POST, value = "/addUser")
     public String addUser(@Valid @ModelAttribute("user") UserDTO userDTO, BindingResult bindingResult) {
         if(bindingResult.hasErrors()) {

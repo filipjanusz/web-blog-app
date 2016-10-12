@@ -17,12 +17,7 @@ public class ContactBookApplication implements CommandLineRunner {
 		SpringApplication.run(ContactBookApplication.class, args);
 	}
 
-	@Autowired
-	private ContactServiceImpl contactService;
-
 	@Override
-	public void run(String... args) throws Exception {
-		//Contact contact = new Contact("Jan", "Kowalski", "437284029", "janek@gmail.com");
-		//contactService.create(contact);
-	}
+	public void run(String... args) throws Exception {}
+
 }

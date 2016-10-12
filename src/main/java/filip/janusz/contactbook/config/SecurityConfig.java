@@ -20,8 +20,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                    .antMatchers("/contactbook/contacts").hasAuthority("ROLE_USER")
-                    .antMatchers("/contactbook/**").hasAuthority("ROLE_ADMIN")
                     .antMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
                     .antMatchers("/news/addNews").hasRole("USER")
                     .anyRequest().permitAll()

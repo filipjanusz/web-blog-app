@@ -30,7 +30,6 @@
                         <li th:class="${#authorization.expression('isAuthenticated()')}? '' : 'disabled'"><a th:href="@{/news/addNews}">Add News</a></li>
                     </ul>
                 </li>
-                <li><a th:href="@{/contactbook/contacts}">ContactBook</a></li>
                 <li class="dropdown" sec:authorize="isAuthenticated() and hasRole('ADMIN')">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin<span class="caret"></span></a>
                     <ul class="dropdown-menu">
