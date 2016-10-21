@@ -10,15 +10,17 @@
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" />
     <title>Login</title>
 </head>
+
 <body>
 <!-- Navbar -->
 <nav th:replace="fragments/navbar :: navbar" >Navbar</nav>
 
-<!-- Formularz logowania -->
+<!-- Login form -->
 <div class="container">
 
-    <!-- <div class="col-sm-6 col-md-4 col-md-offset-4"> -->
     <div class="col-md-4 col-md-offset-4">
+
+        <!-- Errors -->
         <div class="alert alert-success" role="alert" th:if="${param.logout}">
             Logout Succesfully.
         </div>
@@ -28,6 +30,7 @@
         <div class="alert alert-danger" role="alert" th:if="${param.error}">
             Incorrect username or password.
         </div>
+
         <form class="form-signin" th:action="@{/login}" method="post">
             <h2 class="form-signin-heading">Sign in Form</h2>
             <input name="username" type="text" class="form-control" placeholder="Username" required="true" autofocus="true"/>
@@ -49,7 +52,6 @@
     </div>
 
 </div>
-
 
 <script type="text/javascript" th:src="@{/webjars/jquery/2.2.4/jquery.min.js}"></script>
 <script type="text/javascript" th:src="@{/webjars/bootstrap/3.3.6/js/bootstrap.min.js}"></script>
